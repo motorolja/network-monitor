@@ -31,6 +31,8 @@ Since the classes are moved to myjava.awt.datatransfer, the javax.mail and javax
 classes must be modified to use the myjava package.  They are repackaged into
 ```mail.jar``` and ```activation.jar``` files.
 
+It seems that the javamail-android project has not been updated since 2009.
+
 Configuration
 -------------
 The approach in this project is different:
