@@ -10,6 +10,7 @@ repository.
 
 Copyright (C) 2013 Benoit 'BoD' Lubek (BoD@JRAF.org)
 Copyright (C) 2013-2015 Carmen Alvarez (c@rmen.ca)
+Copyright (C) 2015 Rasmus Holm
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -33,7 +34,6 @@ limitations under the License.
             android:icon="@drawable/ic_pref_enable_service"
             android:key="PREF_SERVICE_ENABLED"
             android:title="@string/pref_title_service_enabled" />
-
         <ca.rmen.android.networkmonitor.app.prefs.ThemedListPreference
             android:defaultValue="10000"
             android:entries="@array/preferences_updateInterval_labels"
@@ -42,6 +42,12 @@ limitations under the License.
             android:key="PREF_UPDATE_INTERVAL"
             android:summary="@string/pref_summary_update_interval"
             android:title="@string/pref_title_update_interval" />
+        <Preference
+            android:icon="@drawable/ic_pref_show_log"
+            android:key="PREF_SHOW_GEO_MAP"
+            android:title="@string/pref_title_show_geo_map" >
+            <intent android:action="ca.rmen.android.networkmonitor.app.map.GeoMapActivity" />
+        </Preference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_category_log_actions" >
         <Preference
