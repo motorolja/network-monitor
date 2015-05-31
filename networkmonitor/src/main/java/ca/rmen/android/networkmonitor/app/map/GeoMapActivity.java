@@ -40,7 +40,6 @@ import android.os.Bundle;
 import android.os.Environment;
 
 import ca.rmen.android.networkmonitor.Constants;
-import ca.rmen.android.networkmonitor.R;
 
 /*
  * Displays logged data in a map that is based on "OpenStreetMap"
