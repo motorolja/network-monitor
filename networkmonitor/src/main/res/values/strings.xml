@@ -107,4 +107,10 @@ limitations under the License.
     <string name="warning_fast_polling_title">Warning!</string>
     <string name="warning_fast_polling_message">You have selected a very fast polling frequency. Data tests have been disabled, and a maximum limit to the database size has been set. You can re-enable data tests by selecting a slower polling frequency, and going to the advanced options.</string>
 
+    <!-- Strings about server syncing -->
+    <string name="missing_sync_settings_info_dialog_title">Missing information</string>
+    <string name="missing_sync_settings_info_dialog_message">Syncing cannot be done, because not all of the sync settings have been filled in. The sync frequency has been reset to \'Never\'.</string>
+    <string name="warning_notification_ticker_sync_failed">Error syncing with server.</string>
+    <string name="warning_notification_message_sync_failed">Could not send to the sync server.</string>
+
 </resources>

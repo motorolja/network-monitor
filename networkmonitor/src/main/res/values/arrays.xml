@@ -197,5 +197,22 @@ limitations under the License.
         <item>kml</item>
         <item>db</item>
     </string-array>
-    
+
+    <!-- Server sync interval -->
+    <string-array name="preferences_sync_interval_labels">
+        <item>@string/pref_value_sync_interval_never</item>
+        <item>@string/pref_value_sync_interval_every_hour</item>
+        <item>@string/pref_value_sync_interval_once_a_day</item>
+        <item>@string/pref_value_sync_interval_every_other_day</item>
+        <item>@string/pref_value_sync_interval_once_a_week</item>
+    </string-array>
+    <string-array name="preferences_sync_interval_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>24</item>
+        <item>48</item>
+        <item>168</item>
+    </string-array>
+
+
 </resources>

@@ -46,7 +46,7 @@ limitations under the License.
             android:icon="@drawable/ic_pref_show_log"
             android:key="PREF_SHOW_GEO_MAP"
             android:title="@string/pref_title_show_geo_map" >
-            <intent android:action="ca.rmen.android.networkmonitor.app.map.GeoMapActivity" />
+            <!-- <intent android:action="ca.rmen.android.networkmonitor.app.map.GeoMapActivity" /> -->
         </Preference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_category_log_actions" >
