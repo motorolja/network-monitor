@@ -54,6 +54,7 @@ public class SyncPreferences {
 
     private static SyncPreferences INSTANCE = null;
     private final SharedPreferences mSharedPrefs;
+    private static SyncUpload mSyncUpload;
 
     static class SyncConfig {
         final Set<String> reportFormats;
@@ -86,7 +87,7 @@ public class SyncPreferences {
     }
 
     /**
-     * First constructor
+     * Main constructor
      */
 
     static synchronized SyncPreferences getInstance(Context context) {
@@ -101,6 +102,7 @@ public class SyncPreferences {
      */
     private SyncPreferences(Context context) {
         mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        mSyncUpload = new SyncUpload(context);
     }
 
     /**
@@ -149,7 +151,7 @@ public class SyncPreferences {
         return mSharedPrefs.getLong(PREF_LAST_SYNC_DONE, 0);
     }
 
-    public SyncConfig getSyncConfig() {
+    SyncConfig getSyncConfig() {
         Set<String> reportFormats = mSharedPrefs.getStringSet(PREF_SYNC_FORMATS, new HashSet<String>());
         String server = mSharedPrefs.getString(PREF_SYNC_SERVER, "").trim();
         int port = getIntPreference(PREF_SYNC_PORT, PREF_SYNC_PORT_DEFAULT);
@@ -163,4 +165,12 @@ public class SyncPreferences {
         return Integer.valueOf(valueStr);
     }
 
+    /**
+     * Currently only WebDAV is supported for doing syncs, will in the future check for type of sync
+     */
+    private void doUpdate() {
+        SyncConfig syncConfig = getSyncConfig();
+        mSyncUpload.setValues(syncConfig);
+        mSyncUpload.Upload(SyncUpload.UploadType.WebDAV);
+    }
 }
