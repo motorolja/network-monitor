@@ -29,12 +29,12 @@ limitations under the License.
     <PreferenceCategory android:title="@string/pref_category_speed_test_settings" >
         <!--suppress AndroidElementNotAllowed -->
         <org.jraf.android.backport.switchwidget.SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:icon="@drawable/ic_pref_enable_service"
             android:key="PREF_SPEED_TEST_ENABLED"
             android:title="@string/pref_title_speed_test_enabled" />
         <ca.rmen.android.networkmonitor.app.prefs.ThemedListPreference
-            android:defaultValue="-1"
+            android:defaultValue="1"
             android:entries="@array/preferences_speed_test_interval_labels"
             android:entryValues="@array/preferences_speed_test_interval_values"
             android:icon="@drawable/ic_pref_update_interval"
@@ -54,7 +54,7 @@ limitations under the License.
     <PreferenceCategory android:title="@string/pref_category_speed_test_upload_settings" >
         <!--suppress AndroidElementNotAllowed -->
         <com.afollestad.materialdialogs.prefs.MaterialEditTextPreference
-            android:defaultValue="mobile.rasmus-holm.com"
+            android:defaultValue=""
             android:hint="@string/pref_hint_speed_test_upload_server"
             android:icon="@drawable/ic_pref_server"
             android:key="PREF_SPEED_TEST_UPLOAD_SERVER"
@@ -71,7 +71,7 @@ limitations under the License.
             android:title="@string/pref_title_speed_test_upload_port" />
         <!--suppress AndroidElementNotAllowed -->
         <com.afollestad.materialdialogs.prefs.MaterialEditTextPreference
-            android:defaultValue="ftp_user"
+            android:defaultValue=""
             android:hint="@string/pref_hint_speed_test_upload_user"
             android:icon="@drawable/ic_pref_email_user"
             android:inputType="textEmailAddress"
@@ -80,7 +80,7 @@ limitations under the License.
             android:title="@string/pref_title_speed_test_upload_user" />
         <!--suppress AndroidElementNotAllowed -->
         <com.afollestad.materialdialogs.prefs.MaterialEditTextPreference
-            android:defaultValue="kebaben43#Trallarn"
+            android:defaultValue=""
             android:icon="@drawable/ic_pref_email_password"
             android:inputType="textPassword"
             android:key="PREF_SPEED_TEST_UPLOAD_PASSWORD"

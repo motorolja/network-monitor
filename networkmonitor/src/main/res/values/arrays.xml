@@ -214,5 +214,17 @@ limitations under the License.
         <item>168</item>
     </string-array>
 
+    <!-- Server sync protocol -->
+    <string-array name="preferences_sync_protocol_labels">
+        <item>@string/pref_value_sync_protocol_webdav</item>
+        <item>@string/pref_value_sync_protocol_ftp</item>
+        <item>@string/pref_value_sync_protocol_http</item>
+    </string-array>
+
+    <string-array name="preferences_sync_protocol_values" translatable="false">
+        <item>webdav</item>
+        <item>ftp</item>
+        <item>http</item>
+    </string-array>
 
 </resources>

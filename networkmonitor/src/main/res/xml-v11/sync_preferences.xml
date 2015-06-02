@@ -33,7 +33,7 @@ limitations under the License.
             android:key="PREF_SYNC_ENABLED"
             android:title="@string/pref_title_sync_enabled" />
         <ca.rmen.android.networkmonitor.app.prefs.ThemedListPreference
-            android:defaultValue="24"
+            android:defaultValue="0"
             android:entries="@array/preferences_sync_interval_labels"
             android:entryValues="@array/preferences_sync_interval_values"
             android:icon="@drawable/ic_pref_update_interval"
@@ -51,6 +51,14 @@ limitations under the License.
             android:title="@string/pref_title_sync_formats" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_category_sync_server_settings">
+        <ca.rmen.android.networkmonitor.app.prefs.ThemedListPreference
+            android:defaultValue="ftp"
+            android:entries="@array/preferences_sync_protocol_labels"
+            android:entryValues="@array/preferences_sync_protocol_values"
+            android:icon="@drawable/ic_pref_update_interval"
+            android:key="PREF_SYNC_PROTOCOL"
+            android:summary="%s"
+            android:title="@string/pref_title_sync_protocol" />
         <!--suppress AndroidElementNotAllowed -->
         <com.afollestad.materialdialogs.prefs.MaterialEditTextPreference
             android:defaultValue=""
@@ -58,6 +66,13 @@ limitations under the License.
             android:key="PREF_SYNC_SERVER"
             android:summary="@string/pref_summary_sync_server"
             android:title="@string/pref_title_sync_server" />
+        <!--suppress AndroidElementNotAllowed -->
+        <com.afollestad.materialdialogs.prefs.MaterialEditTextPreference
+            android:defaultValue=""
+            android:icon="@drawable/ic_pref_folder"
+            android:key="PREF_SYNC_PATH"
+            android:summary="@string/pref_summary_sync_path"
+            android:title="@string/pref_title_sync_path" />
         <!--suppress AndroidElementNotAllowed -->
         <com.afollestad.materialdialogs.prefs.MaterialEditTextPreference
             android:defaultValue="21"

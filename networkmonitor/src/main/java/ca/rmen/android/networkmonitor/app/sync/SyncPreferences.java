@@ -49,6 +49,8 @@ public class SyncPreferences {
     static final String PREF_SYNC_USER = "PREF_SYNC_USER";
     static final String PREF_LAST_SYNC_DONE = "PREF_LAST_SYNC_DONE";
     static final String PREF_SYNC_INTERVAL = "PREF_SYNC_INTERVAL";
+    static final String PREF_SYNC_PATH = "PREF_SYNC_PATH";
+    static final String PREF_SYNC_PROTOCOL = "PREF_SYNC_PROTOCOL";
     private static final String PREF_SYNC_PASSWORD = "PREF_SYNC_PASSWORD";
 
     private static final String PREF_SYNC_PORT_DEFAULT = "80";
@@ -161,8 +163,10 @@ public class SyncPreferences {
         String user = mSharedPrefs.getString(PREF_SYNC_USER, "").trim();
         String password = mSharedPrefs.getString(PREF_SYNC_PASSWORD, "").trim();
         int interval = getIntPreference(PREF_SYNC_INTERVAL, PREF_SYNC_INTERVAL_DEFAULT);
-        SyncUpload.UploadType uploadType = SyncUpload.UploadType.FTP;
-        String path = "/files/";
+        String type = mSharedPrefs.getString(PREF_SYNC_PROTOCOL, "").trim();
+        SyncUpload.UploadType uploadType = SyncUpload.UploadType.valueOf(type);
+        String path = mSharedPrefs.getString(PREF_SYNC_PATH, "").trim();
+
         return new SyncConfig(reportFormats, server, port, user, password, interval, uploadType, path);
     }
 
