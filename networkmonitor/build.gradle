@@ -92,6 +92,7 @@ dependencies {
         proprietaryCompile 'com.google.android.gms:play-services-location:7.0.0'
     }
     compile fileTree(include: '*.jar', dir: 'libs')
-    compile files('libs/sardine-5.4.jar')
     compile 'commons-io:commons-io:2.4'
+    //compile 'org.apache.jackrabbit:jackrabbit-webdav:2.10.1'
+    //compile 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
 }

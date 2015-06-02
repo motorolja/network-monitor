@@ -84,7 +84,7 @@ limitations under the License.
             android:summary="@string/pref_summary_scheduler"
             android:title="@string/pref_title_scheduler" />
         <ca.rmen.android.networkmonitor.app.prefs.ThemedListPreference
-            android:defaultValue="SAVE_POWER"
+            android:defaultValue="HIGH_ACCURACY"
             android:entries="@array/preferences_location_fetching_strategy_labels"
             android:entryValues="@array/preferences_location_fetching_strategy_values"
             android:icon="@drawable/ic_pref_location_fetching_strategy"
@@ -141,6 +141,7 @@ limitations under the License.
         </Preference>
         <Preference
             android:icon="@drawable/ic_pref_email"
+            android:key="PREF_SERVER_SYNCS"
             android:title="@string/pref_title_sync">
             <intent android:action="ca.rmen.android.networkmonitor.app.sync.SyncPreferencesActivity" />
         </Preference>

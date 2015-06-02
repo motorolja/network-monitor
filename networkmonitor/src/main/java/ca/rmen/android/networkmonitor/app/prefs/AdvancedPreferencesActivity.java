@@ -82,7 +82,7 @@ public class AdvancedPreferencesActivity extends AppCompatPreferenceActivity { /
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             emailPreference.setEnabled(false);
             emailPreference.setSummary(R.string.pref_email_unavailable);
-        }
+}
     }
 
     @Override

@@ -41,49 +41,52 @@ import ca.rmen.android.networkmonitor.util.Log;
 public class SyncPreferences {
     private static final String TAG = Constants.TAG + SyncPreferences.class.getSimpleName();
 
+    public static String PREF_SERVER_SYNCS = "PREF_SERVER_SYNCS";
     static final String PREF_SYNC_ENABLED = "PREF_SYNC_ENABLE";
     static final String PREF_SYNC_FORMATS = "PREF_SYNC_FORMATS";
     static final String PREF_SYNC_SERVER = "PREF_SYNC_SERVER";
     static final String PREF_SYNC_PORT = "PREF_SYNC_PORT";
     static final String PREF_SYNC_USER = "PREF_SYNC_USER";
     static final String PREF_LAST_SYNC_DONE = "PREF_LAST_SYNC_DONE";
+    static final String PREF_SYNC_INTERVAL = "PREF_SYNC_INTERVAL";
     private static final String PREF_SYNC_PASSWORD = "PREF_SYNC_PASSWORD";
 
-    private static final String PREF_SYNC_INTERVAL = "PREF_SYNC_INTERVAL";
     private static final String PREF_SYNC_PORT_DEFAULT = "80";
+    private static final String PREF_SYNC_INTERVAL_DEFAULT = "0";
 
     private static SyncPreferences INSTANCE = null;
     private final SharedPreferences mSharedPrefs;
     private static SyncUpload mSyncUpload;
+
 
     static class SyncConfig {
         final Set<String> reportFormats;
         final String server;
         final int port;
         final String user;
+        final int interval;
         final String password;
+        final SyncUpload.UploadType uploadType;
+        final String path;
 
-        private SyncConfig(Set<String> reportFormats, String server, int port, String user, String password) {
+        private SyncConfig(Set<String> reportFormats, String server, int port, String user, String password,
+                           int interval, SyncUpload.UploadType uploadType, String path) {
             this.reportFormats = reportFormats;
             this.server = server;
             this.port = port;
             this.user = user;
             this.password = password;
+            this.interval = interval;
+            this.uploadType = uploadType;
+            this.path = path;
         }
 
         /**
          * @return true if we have enough info to attempt to sync.
          */
         public boolean isValid() {
-            return !TextUtils.isEmpty(server) && port > 0 && !TextUtils.isEmpty(user) && !TextUtils.isEmpty(password);
+            return !TextUtils.isEmpty(server) && port > 0;
         }
-
-        @Override
-        public String toString() {
-            return SyncPreferences.class.getSimpleName() + " [reportFormats=" + reportFormats + ", server=" + server + ", port=" + port + ", user=" + user
-                    + ", password=******]";
-        }
-
     }
 
     /**
@@ -120,8 +123,8 @@ public class SyncPreferences {
     /**
      * @return the interval, in milliseconds, between syncs.
      */
-    public int getSyncInterval() {
-        return getIntPreference(SyncPreferences.PREF_SYNC_INTERVAL, "0") * 60 * 60 * 1000;
+    public long getSyncInterval() {
+        return getIntPreference(SyncPreferences.PREF_SYNC_INTERVAL, PREF_SYNC_INTERVAL_DEFAULT) * 60 * 60 * 1000;
     }
 
     /**
@@ -157,7 +160,10 @@ public class SyncPreferences {
         int port = getIntPreference(PREF_SYNC_PORT, PREF_SYNC_PORT_DEFAULT);
         String user = mSharedPrefs.getString(PREF_SYNC_USER, "").trim();
         String password = mSharedPrefs.getString(PREF_SYNC_PASSWORD, "").trim();
-        return new SyncConfig(reportFormats, server, port, user, password);
+        int interval = getIntPreference(PREF_SYNC_INTERVAL, PREF_SYNC_INTERVAL_DEFAULT);
+        SyncUpload.UploadType uploadType = SyncUpload.UploadType.FTP;
+        String path = "/files/";
+        return new SyncConfig(reportFormats, server, port, user, password, interval, uploadType, path);
     }
 
     private int getIntPreference(String key, String defaultValue) {
@@ -165,12 +171,4 @@ public class SyncPreferences {
         return Integer.valueOf(valueStr);
     }
 
-    /**
-     * Currently only WebDAV is supported for doing syncs, will in the future check for type of sync
-     */
-    private void doUpdate() {
-        SyncConfig syncConfig = getSyncConfig();
-        mSyncUpload.setValues(syncConfig);
-        mSyncUpload.Upload(SyncUpload.UploadType.WebDAV);
-    }
 }

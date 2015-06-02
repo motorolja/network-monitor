@@ -42,6 +42,8 @@ import ca.rmen.android.networkmonitor.app.email.ReportEmailer;
 import ca.rmen.android.networkmonitor.app.prefs.NetMonPreferences;
 import ca.rmen.android.networkmonitor.app.service.datasources.NetMonDataSources;
 import ca.rmen.android.networkmonitor.app.service.scheduler.Scheduler;
+import ca.rmen.android.networkmonitor.app.sync.SyncPreferences;
+import ca.rmen.android.networkmonitor.app.sync.SyncUpload;
 import ca.rmen.android.networkmonitor.provider.NetMonColumns;
 import ca.rmen.android.networkmonitor.util.Log;
 
@@ -56,6 +58,7 @@ public class NetMonService extends Service {
     private long mLastWakeUp = 0;
     private NetMonDataSources mDataSources;
     private ReportEmailer mReportEmailer;
+    private SyncUpload mSyncUpload;
     private Scheduler mScheduler;
 
     @Override
@@ -78,6 +81,8 @@ public class NetMonService extends Service {
         mDataSources.onCreate(this);
 
         mReportEmailer = new ReportEmailer(this);
+
+        mSyncUpload = new SyncUpload(this);
 
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(mSharedPreferenceListener);
 
@@ -163,6 +168,9 @@ public class NetMonService extends Service {
 
                 // Send mail
                 mReportEmailer.send();
+
+                // Do server sync
+                mSyncUpload.Upload();
 
             } catch (Throwable t) {
                 Log.v(TAG, "Error in monitorLoop: " + t.getMessage(), t);

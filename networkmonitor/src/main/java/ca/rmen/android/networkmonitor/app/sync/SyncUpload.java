@@ -25,14 +25,9 @@
 package ca.rmen.android.networkmonitor.app.sync;
 
 import android.content.Context;
-
-import com.github.sardine.Sardine;
-import com.github.sardine.SardineFactory;
-
-import org.apache.commons.io.FileUtils;
+import android.telephony.TelephonyManager;
 
 import java.io.File;
-import java.io.IOException;
 
 import ca.rmen.android.networkmonitor.Constants;
 import ca.rmen.android.networkmonitor.app.dbops.backend.export.CSVExport;
@@ -56,81 +51,94 @@ public class SyncUpload {
     }
 
     private final Context mContext;
-    private static String mUsername;
-    private static String mServer;
-    private static String mPassword;
-    private static int mPort;
+    private TelephonyManager mTelephonyManager;
 
     private static UploadStatus mLastUploadStatus;
 
-    SyncUpload (Context context) {
+    public SyncUpload(Context context) {
         this.mLastUploadStatus = UploadStatus.UNKNOWN;
         this.mContext = context;
-        this.mPort = 80;
+        mTelephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
     }
 
-    /**
-     * Set functions for internal variables
-     */
-    void setValues (SyncPreferences.SyncConfig syncConfig) {
-        mPassword = syncConfig.password;
-        mPort = syncConfig.port;
-        mUsername = syncConfig.user;
-        mServer = syncConfig.server;
-    }
-
-    public UploadStatus Upload(UploadType uploadType) {
-        switch (uploadType) {
+    public synchronized void Upload() {
+        final SyncPreferences.SyncConfig syncConfig = SyncPreferences.getInstance(mContext).getSyncConfig();
+        if (!syncConfig.isValid() || !isSyncTime()) {
+            Log.w(TAG, "Cannot perform sync with the current sync settings: " + syncConfig);
+            return;
+        }
+        switch (syncConfig.uploadType) {
             case WebDAV:
-                mLastUploadStatus = UploadWebDAV();
+                mLastUploadStatus = UploadWebDAV(syncConfig);
                 break;
             case HTTP:
-                mLastUploadStatus = UploadHTTP();
+                mLastUploadStatus = UploadHTTP(syncConfig);
                 break;
             case FTP:
-                mLastUploadStatus = UploadFTP();
+                mLastUploadStatus = UploadFTP(syncConfig);
                 break;
             default:
                 mLastUploadStatus = UploadStatus.INVALID_UPLOAD_TYPE;
         }
-        return mLastUploadStatus;
+        CheckUploadStatusMessage();
+    }
+
+    private boolean isSyncTime() {
+        Log.v(TAG, "isSyncTime");
+        long syncInterval = SyncPreferences.getInstance(mContext).getSyncInterval();
+        if (syncInterval == 0) {
+            Log.v(TAG, "isSyncTime: sync is not enabled");
+            return false;
+        }
+        long lastSyncDone = SyncPreferences.getInstance(mContext).getLastSyncDone();
+        long now = System.currentTimeMillis();
+        Log.v(TAG, "isSyncTime: synced " + (now - lastSyncDone) + " ms ago, vs report duration = " + syncInterval + " ms");
+        if (now - lastSyncDone > syncInterval) {
+            SyncPreferences.getInstance(mContext).setLastSyncDone(now);
+            return true;
+        }
+        return false;
+    }
+
+    private void CheckUploadStatusMessage() {
+        // For future error checking
+        switch(mLastUploadStatus)
+        {
+            case UNKNOWN:
+                break;
+            case INVALID_UPLOAD_TYPE:
+                break;
+            case INVALID_FILE:
+                break;
+            case AUTH_FAILURE:
+                break;
+            case FAILURE:
+                break;
+            case SUCCESS:
+                break;
+            default:
+                break;
+        }
     }
 
     /**
-     * Uses sardine which is an open source library for handling WebDav shares
-     * Source is found on https://github.com/lookfirst/sardine
      *
      * @return parameter telling how the upload went
      */
-    private UploadStatus UploadWebDAV () {
-        Sardine sardine;
-        if ( mUsername.isEmpty() && mPassword.isEmpty()) {
-            sardine = SardineFactory.begin();
-        } else {
-            sardine = SardineFactory.begin(mUsername, mPassword);
-        }
-        sardine.enableCompression();
-        File exportFile = createAttachment("");
-        try {
-            byte []data= FileUtils.readFileToByteArray(exportFile);
-            sardine.put(mServer,data);
-        } catch (IOException e) {
-            Log.v(TAG, "Could not copy DB file: " + e.getMessage(), e);
-            return UploadStatus.INVALID_FILE;
-        }
-        return UploadStatus.SUCCESS;
-    }
+    private UploadStatus UploadWebDAV (SyncPreferences.SyncConfig syncConfig) {
 
-    private static UploadStatus UploadHTTP () {
         return UploadStatus.FAILURE;
     }
 
-    private static UploadStatus UploadFTP () {
+    private static UploadStatus UploadHTTP (SyncPreferences.SyncConfig syncConfig) {
+
         return UploadStatus.FAILURE;
     }
 
-    private static String getPassword () {
-        return "";
+    private UploadStatus UploadFTP (SyncPreferences.SyncConfig syncConfig) {
+        File file = createAttachment("db");
+        String remoteFileName = mTelephonyManager.getDeviceId();
+        return FTPSync.upload(syncConfig, file, remoteFileName);
     }
 
     /**
@@ -161,6 +169,5 @@ public class SyncUpload {
         }
         return fileExport.execute(null);
     }
-
 
 }

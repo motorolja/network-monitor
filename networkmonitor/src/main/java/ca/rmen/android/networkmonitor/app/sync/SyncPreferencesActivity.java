@@ -49,6 +49,7 @@ import ca.rmen.android.networkmonitor.util.Log;
 public class SyncPreferencesActivity extends AppCompatPreferenceActivity {
     private static final String TAG = Constants.TAG + SyncPreferencesActivity.class.getSimpleName();
 
+    private SyncPreferences mSyncPreferences;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -58,10 +59,12 @@ public class SyncPreferencesActivity extends AppCompatPreferenceActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         PreferenceManager.setDefaultValues(this, R.xml.sync_preferences, false);
         addPreferencesFromResource(R.xml.sync_preferences);
+        mSyncPreferences = SyncPreferences.getInstance(this);
         updatePreferenceSummary(SyncPreferences.PREF_SYNC_FORMATS, R.string.pref_summary_sync_formats);
         updatePreferenceSummary(SyncPreferences.PREF_SYNC_SERVER, R.string.pref_summary_sync_server);
         updatePreferenceSummary(SyncPreferences.PREF_SYNC_PORT, R.string.pref_summary_sync_port);
         updatePreferenceSummary(SyncPreferences.PREF_SYNC_USER, R.string.pref_summary_sync_user);
+        updatePreferenceSummary(SyncPreferences.PREF_SYNC_INTERVAL, R.string.pref_summary_sync_interval);
         updatePreferenceSummary(SyncPreferences.PREF_LAST_SYNC_DONE, R.string.pref_summary_last_sync_done);
         findPreference(SyncPreferences.PREF_SYNC_FORMATS).setOnPreferenceChangeListener(mOnPreferenceChangeListener);
     }
@@ -77,14 +80,14 @@ public class SyncPreferencesActivity extends AppCompatPreferenceActivity {
     protected void onPause() {
         Log.v(TAG, "onPause");
         super.onPause();
-        int syncInterval = SyncPreferences.getInstance(this).getSyncInterval();
+        long syncInterval = mSyncPreferences.getSyncInterval();
         // If the user enabled sync, make sure we have enough info.
-        if (syncInterval > 0) {
-            SyncPreferences.SyncConfig syncConfig = SyncPreferences.getInstance(this).getSyncConfig();
+        if (mSyncPreferences.isEnabled() && syncInterval > 0) {
+            SyncPreferences.SyncConfig syncConfig = mSyncPreferences.getSyncConfig();
             if (!syncConfig.isValid()) {
-                SyncPreferences.getInstance(this).setSyncInterval(0);
-                //PreferenceDialog.showInfoDialog(this, getString(R.string.missing_sync_settings_info_dialog_title),
-                 //       getString(R.string.missing_sync_settings_info_dialog_message));
+                mSyncPreferences.setEnabled(false);
+                PreferenceDialog.showInfoDialog(this, getString(R.string.missing_sync_settings_info_dialog_title),
+                        getString(R.string.missing_sync_settings_info_dialog_message));
             }
         }
     }
@@ -112,6 +115,9 @@ public class SyncPreferencesActivity extends AppCompatPreferenceActivity {
                     break;
                 case SyncPreferences.PREF_SYNC_USER:
                     updatePreferenceSummary(SyncPreferences.PREF_SYNC_USER, R.string.pref_summary_sync_user);
+                    break;
+                case SyncPreferences.PREF_SYNC_INTERVAL:
+                    updatePreferenceSummary(SyncPreferences.PREF_SYNC_INTERVAL, R.string.pref_summary_sync_interval);
                     break;
                 case SyncPreferences.PREF_LAST_SYNC_DONE:
                     updatePreferenceSummary(SyncPreferences.PREF_LAST_SYNC_DONE, R.string.pref_summary_last_sync_done);
