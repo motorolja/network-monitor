@@ -28,7 +28,7 @@ limitations under the License.
     <PreferenceCategory android:title="@string/pref_category_sync_preferences_settings">
         <!--suppress AndroidElementNotAllowed -->
         <org.jraf.android.backport.switchwidget.SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:icon="@drawable/ic_pref_enable_service"
             android:key="PREF_SYNC_ENABLED"
             android:title="@string/pref_title_sync_enabled" />
@@ -53,7 +53,7 @@ limitations under the License.
     <PreferenceCategory android:title="@string/pref_category_sync_server_settings">
         <!--suppress AndroidElementNotAllowed -->
         <com.afollestad.materialdialogs.prefs.MaterialEditTextPreference
-            android:defaultValue="mobile.rasmus-holm.com"
+            android:defaultValue=""
             android:icon="@drawable/ic_pref_server"
             android:key="PREF_SYNC_SERVER"
             android:summary="@string/pref_summary_sync_server"
@@ -67,14 +67,14 @@ limitations under the License.
             android:title="@string/pref_title_sync_port" />
         <!--suppress AndroidElementNotAllowed -->
         <com.afollestad.materialdialogs.prefs.MaterialEditTextPreference
-            android:defaultValue="ftp_user"
+            android:defaultValue=""
             android:icon="@drawable/ic_pref_email_user"
             android:key="PREF_SYNC_USER"
             android:summary="@string/pref_summary_sync_user"
             android:title="@string/pref_title_sync_user" />
         <!--suppress AndroidElementNotAllowed -->
         <com.afollestad.materialdialogs.prefs.MaterialEditTextPreference
-            android:defaultValue="kebaben43#Trallarn"
+            android:defaultValue=""
             android:icon="@drawable/ic_pref_email_password"
             android:inputType="textPassword"
             android:key="PREF_SYNC_PASSWORD"
