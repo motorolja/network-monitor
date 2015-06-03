@@ -47,6 +47,7 @@ import ca.rmen.android.networkmonitor.R;
 import ca.rmen.android.networkmonitor.app.email.EmailPreferences;
 import ca.rmen.android.networkmonitor.app.prefs.NetMonPreferences.LocationFetchingStrategy;
 import ca.rmen.android.networkmonitor.app.service.NetMonNotification;
+import ca.rmen.android.networkmonitor.app.sync.SyncPreferences;
 import ca.rmen.android.networkmonitor.util.Log;
 
 public class AdvancedPreferencesActivity extends AppCompatPreferenceActivity { // NO_UCD (use default)
@@ -79,7 +80,9 @@ public class AdvancedPreferencesActivity extends AppCompatPreferenceActivity { /
         Preference compressPreference = getPreferenceManager().findPreference(PREF_COMPRESS);
         compressPreference.setOnPreferenceClickListener(mOnPreferenceClickListener);
         Preference emailPreference = findPreference(EmailPreferences.PREF_EMAIL_REPORTS);
+        Preference syncPreference = findPreference(SyncPreferences.PREF_SERVER_SYNCS);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            syncPreference.setEnabled(false);
             emailPreference.setEnabled(false);
             emailPreference.setSummary(R.string.pref_email_unavailable);
 }
