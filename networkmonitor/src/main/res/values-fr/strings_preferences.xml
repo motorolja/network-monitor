@@ -32,7 +32,9 @@ limitations under the License.
     <string name="pref_summary_update_interval">%s</string>
     <string name="pref_title_service_enabled">Activer le service</string>
     <string name="pref_title_show_log_file">Voir le fichier journal</string>
+    <string name="pref_title_show_geo_map">Show map with your data</string>
     <string name="pref_title_advanced">Options avancées</string>
+    <string name="pref_title_load_configuration_file">Load configuration file</string>
     <string name="pref_title_about">À propos</string>
     <string name="pref_value_interval_never">Jamais</string>
     <string name="pref_value_interval_network_change">Quand le réseau change</string>
@@ -85,6 +87,7 @@ limitations under the License.
     <string name="pref_title_db_record_count">Limiter la taille de la base de données</string>
     <string name="pref_summary_db_record_count">Limiter le nombre de lignes en la base de données: %s</string>
     <string name="pref_title_email">Envoyer des rapports par courriel</string>
+    <string name="pref_title_sync">Setup sync of log with server</string>
     <string name="pref_title_notification_enabled">Activer les notifications</string>
     <string name="pref_summary_notification_enabled">Notifier lorsqu\'un test de réseau échoue.</string>
     <string name="pref_title_notification_ringtone">Sonnerie de la notification</string>

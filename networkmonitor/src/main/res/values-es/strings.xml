@@ -104,4 +104,10 @@ limitations under the License.
     <string name="warning_fast_polling_title">¡Aviso!</string>
     <string name="warning_fast_polling_message">Has activado una frecuencia de pruebas muy rápida. Las pruebas de conexión han sido desactivadas, y el número de filas en la base de datos ha sido limitado.  Puedes reactivar las pruebas de conexión si escoges una frecuencia más lenta y abres las opciones avanzadas.</string>
 
+    <!-- Strings about server syncing -->
+    <string name="missing_sync_settings_info_dialog_title">Missing information</string>
+    <string name="missing_sync_settings_info_dialog_message">Syncing cannot be done, because not all of the sync settings have been filled in. The sync frequency has been reset to \'Never\'.</string>
+    <string name="warning_notification_ticker_sync_failed">Error syncing with server.</string>
+    <string name="warning_notification_message_sync_failed">Could not send to the sync server.</string>
+
 </resources>

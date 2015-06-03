@@ -91,6 +91,5 @@ dependencies {
     if (!gradle.isFoss) {
         proprietaryCompile 'com.google.android.gms:play-services-location:7.0.0'
     }
-    compile fileTree(include: '*.jar', dir: 'libs')
     compile 'commons-io:commons-io:2.4'
 }
