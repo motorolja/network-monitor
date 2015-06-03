@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketException;
 
+import android.provider.Settings;
 import android.text.TextUtils;
 
 import org.apache.commons.net.ftp.FTPClient;
@@ -71,8 +72,9 @@ public class FTPSync {
             ftp.setFileType(FTP.BINARY_FILE_TYPE);
             ftp.enterLocalPassiveMode();
             // Upload the file
+            String uniqueFileName = remoteFileName + System.currentTimeMillis() + '.' + syncConfig.uploadType.toString();
             is = new FileInputStream(file);
-            if (!ftp.storeFile(remoteFileName, is)) {
+            if (!ftp.storeFile(uniqueFileName, is)) {
                 ftp.disconnect();
                 Log.v(TAG,
                         "Upload: could not store file to " + syncConfig.path + ". Error code: " + ftp.getReplyCode() + ", error string: "
